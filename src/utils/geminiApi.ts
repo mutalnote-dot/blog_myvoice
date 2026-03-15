@@ -1,6 +1,6 @@
 import { GoogleGenAI } from '@google/genai';
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
 
 export async function analyzeStyle(text: string): Promise<string> {
   const systemInstruction = `글쓰기 스타일 분석 전문가 역할. 위 5개 항목을 한국어로 구체적으로 분석.
