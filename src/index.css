@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg-main: #0c0c0c;
+  --color-text-main: #e0d8ce;
+  --color-accent: #c8a050;
+  --color-card-bg: #111111;
+  --color-card-border: #1e1e1e;
+  --color-btn-disabled-bg: #1a1a1a;
+  --color-btn-disabled-text: #383838;
+  --color-error-bg: rgba(180, 60, 60, 0.1);
+  --color-error-text: #d07070;
+
+  --font-serif: "Noto Serif KR", serif;
+  --font-sans: "Noto Sans KR", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-bg-main);
+    color: var(--color-text-main);
+    font-family: var(--font-sans);
+    font-weight: 300;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.35s ease forwards;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(200, 160, 80, 0.3);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-pulse-custom {
+  animation: pulseCustom 1.5s ease-in-out infinite;
+}
+
+@keyframes pulseCustom {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
