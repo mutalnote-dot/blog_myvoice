@@ -1,6 +1,17 @@
 import { GoogleGenAI } from '@google/genai';
 
-const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
+let _aiInstance: any = null;
+
+function getAI() {
+  if (!_aiInstance) {
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+    if (!apiKey) {
+      throw new Error('VITE_GEMINI_API_KEY 환경 변수가 설정되지 않았습니다. Vercel 설정에서 환경 변수를 추가하고 다시 배포해주세요.');
+    }
+    _aiInstance = new GoogleGenAI({ apiKey });
+  }
+  return _aiInstance;
+}
 
 export async function analyzeStyle(text: string): Promise<string> {
   const systemInstruction = `글쓰기 스타일 분석 전문가 역할. 위 5개 항목을 한국어로 구체적으로 분석.
@@ -11,6 +22,8 @@ export async function analyzeStyle(text: string): Promise<string> {
 5. 독자와의 관계 (친근함 수준, 설득 방식, 감정 표현)`;
 
   const userPrompt = `블로그 글 샘플 전문:\n${text.slice(0, 14000)}\n\n위 샘플을 바탕으로 작성자의 말투와 문체를 분석해주세요.`;
+
+  const ai = getAI();
 
   const response = await ai.models.generateContent({
     model: 'gemini-3.1-pro-preview',
@@ -47,6 +60,8 @@ ${styleAnalysis}
 위 말투와 문체를 100% 반영하여, 마치 본인이 직접 쓴 것처럼 자연스럽게 작성하세요.`;
 
   const userPrompt = `주제: ${topic}\n\n위 주제로 네이버 홈판에 노출될 만한 퀄리티의 글을 작성해주세요.`;
+
+  const ai = getAI();
 
   const response = await ai.models.generateContent({
     model: 'gemini-3.1-pro-preview',
